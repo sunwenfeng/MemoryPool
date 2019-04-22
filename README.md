@@ -1,6 +1,6 @@
 MemoryPool C98注释
 ==========
-参考stl allocater进行实现
+参考stl allocator进行实现
 
 
 This repository is no longer maintained.
