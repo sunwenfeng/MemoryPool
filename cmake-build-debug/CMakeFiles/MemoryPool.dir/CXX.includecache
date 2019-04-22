@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/sun/Desktop/MemoryPool/C-98/MemoryPool.h
+limits.h
+-
+stddef.h
+-
+MemoryPool.tcc
+C:/Users/sun/Desktop/MemoryPool/C-98/MemoryPool.tcc
+
+C:/Users/sun/Desktop/MemoryPool/C-98/MemoryPool.tcc
+
+C:/Users/sun/Desktop/MemoryPool/StackAlloc.h
+memory
+-
+
+C:/Users/sun/Desktop/MemoryPool/main.cpp
+iostream
+-
+cassert
+-
+time.h
+-
+vector
+-
+C-98/MemoryPool.h
+C:/Users/sun/Desktop/MemoryPool/C-98/MemoryPool.h
+StackAlloc.h
+C:/Users/sun/Desktop/MemoryPool/StackAlloc.h
+

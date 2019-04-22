@@ -25,42 +25,45 @@
 
 #include <limits.h>
 #include <stddef.h>
+/*参考STL allocator实现的内存池，支持任意类型*/
 
 template <typename T, size_t BlockSize = 4096>
 class MemoryPool
 {
   public:
     /* Member types */
-    typedef T               value_type;
-    typedef T*              pointer;
-    typedef T&              reference;
-    typedef const T*        const_pointer;
-    typedef const T&        const_reference;
-    typedef size_t          size_type;
+    typedef T               value_type;         //元素类型
+    typedef T*              pointer;            //指针
+    typedef T&              reference;          //引用
+    typedef const T*        const_pointer;      //const 指针
+    typedef const T&        const_reference;    //const 引用
+    typedef size_t          size_type;          //
     typedef ptrdiff_t       difference_type;
 
-    template <typename U> struct rebind {
-      typedef MemoryPool<U> other;
+    template <typename U>
+    struct rebind {
+      typedef MemoryPool<U> other;              //重新绑定？？以U为参数
     };
 
     /* Member functions */
-    MemoryPool() throw();
-    MemoryPool(const MemoryPool& memoryPool) throw();
-    template <class U> MemoryPool(const MemoryPool<U>& memoryPool) throw();
+    MemoryPool() throw();                                       //构造函数
+    MemoryPool(const MemoryPool& memoryPool) throw();           //拷贝构造，但没有指定参数？？
+    template <class U>
+    MemoryPool(const MemoryPool<U>& memoryPool) throw();        //拷贝构造
 
-    ~MemoryPool() throw();
+    ~MemoryPool() throw();                                      //析构函数
 
-    pointer address(reference x) const throw();
-    const_pointer address(const_reference x) const throw();
+    pointer address(reference x) const throw();                 //返回指针
+    const_pointer address(const_reference x) const throw();     //返回const 指针
 
     // Can only allocate one object at a time. n and hint are ignored
-    pointer allocate(size_type n = 1, const_pointer hint = 0);
-    void deallocate(pointer p, size_type n = 1);
+    pointer allocate(size_type n = 1, const_pointer hint = 0);     //分配内存空间
+    void deallocate(pointer p, size_type n = 1);                    //释放内存空间
 
     size_type max_size() const throw();
 
-    void construct(pointer p, const_reference val);
-    void destroy(pointer p);
+    void construct(pointer p, const_reference val);                 //构造对象
+    void destroy(pointer p);                                        //析构对象
 
     pointer newElement(const_reference val);
     void deleteElement(pointer p);
@@ -69,19 +72,19 @@ class MemoryPool
     union Slot_ {
       value_type element;
       Slot_* next;
-    };
+    };//既能存放对象，又能构建链表，但同时只能存在一个
 
-    typedef char* data_pointer_;
-    typedef Slot_ slot_type_;
+    typedef char* data_pointer_;            //指向内存池的首地址
+    typedef Slot_ slot_type_;               //
     typedef Slot_* slot_pointer_;
 
-    slot_pointer_ currentBlock_;
-    slot_pointer_ currentSlot_;
-    slot_pointer_ lastSlot_;
-    slot_pointer_ freeSlots_;
+    slot_pointer_ currentBlock_;            //block list头指针
+    slot_pointer_ currentSlot_;             //当前可用的第一个slot的位置，即可以存放value_type数据的位置
+    slot_pointer_ lastSlot_;                //最后一个slot的位置
+    slot_pointer_ freeSlots_;               //空闲链表头指针
 
     size_type padPointer(data_pointer_ p, size_type align) const throw();
-    void allocateBlock();
+    void allocateBlock();                   //添加一个block
    /*
     static_assert(BlockSize >= 2 * sizeof(slot_type_), "BlockSize too small.");
     */
