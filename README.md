@@ -1,3 +1,8 @@
+MemoryPool C98注释
+==========
+参考stl allocater进行实现
+
+
 This repository is no longer maintained.
 ==========
 I no longer program in C++ or follow the standard, so I won't be updating this repository in the future. Seeing that only a few minor [issues](https://github.com/cacay/MemoryPool/issues) have come up over many years, I consider MemoryPool stable and still a good starting point for your own implementation. Alternatively, you can always use one of the numerous [forks](https://github.com/cacay/MemoryPool/network).
