@@ -42,14 +42,15 @@ class MemoryPool
 
     template <typename U>
     struct rebind {
-      typedef MemoryPool<U> other;              //重新绑定？？以U为参数
+      typedef MemoryPool<U> other;
+        //rebind为一个嵌套类模板，rebind<U>拥有唯一成员other，那是一个typedef，代表allocator<U>
     };
 
     /* Member functions */
     MemoryPool() throw();                                       //构造函数
-    MemoryPool(const MemoryPool& memoryPool) throw();           //拷贝构造，但没有指定参数？？
+    MemoryPool(const MemoryPool& memoryPool) throw();           //拷贝构造
     template <class U>
-    MemoryPool(const MemoryPool<U>& memoryPool) throw();        //拷贝构造
+    MemoryPool(const MemoryPool<U>& memoryPool) throw();        //泛化的拷贝构造，也就是模板构造函数
 
     ~MemoryPool() throw();                                      //析构函数
 
@@ -57,10 +58,10 @@ class MemoryPool
     const_pointer address(const_reference x) const throw();     //返回const 指针
 
     // Can only allocate one object at a time. n and hint are ignored
-    pointer allocate(size_type n = 1, const_pointer hint = 0);     //分配内存空间
+    pointer allocate(size_type n = 1, const_pointer hint = 0);     //分配内存空间，足够存储n个T对象
     void deallocate(pointer p, size_type n = 1);                    //释放内存空间
 
-    size_type max_size() const throw();
+    size_type max_size() const throw();                             //返回成功配置的最大量
 
     void construct(pointer p, const_reference val);                 //构造对象
     void destroy(pointer p);                                        //析构对象

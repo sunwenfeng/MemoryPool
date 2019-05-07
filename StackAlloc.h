@@ -34,8 +34,8 @@
 template <typename T>
 struct StackNode_
 {
-  T data;
-  StackNode_* prev;
+  T data;                   //数据
+  StackNode_* prev;         //前驱
 };
 
 /** T is the object to store in the stack, Alloc is the allocator to use */
@@ -44,7 +44,7 @@ class StackAlloc
 {
   public:
     typedef StackNode_<T> Node;
-    typedef typename Alloc::template rebind<Node>::other allocator;
+    typedef typename Alloc::template rebind<Node>::other allocator;  //Node类型的allocator
 
     /** Default constructor */
     StackAlloc() {head_ = 0; }
@@ -59,9 +59,9 @@ class StackAlloc
       Node* curr = head_;
       while (curr != 0)
       {
-        Node* tmp = curr->prev;
-        allocator_.destroy(curr);
-        allocator_.deallocate(curr, 1);
+        Node* tmp = curr->prev;         //记录下一节点
+        allocator_.destroy(curr);       //析构
+        allocator_.deallocate(curr, 1); //释放内存空间
         curr = tmp;
       }
       head_ = 0;
@@ -69,8 +69,8 @@ class StackAlloc
 
     /** Put an element on the top of the stack */
     void push(T element) {
-      Node* newNode = allocator_.allocate(1);
-      allocator_.construct(newNode, Node());
+      Node* newNode = allocator_.allocate(1);       //申请内存
+      allocator_.construct(newNode, Node());        //构造
       newNode->data = element;
       newNode->prev = head_;
       head_ = newNode;
@@ -80,8 +80,8 @@ class StackAlloc
     T pop() {
       T result = head_->data;
       Node* tmp = head_->prev;
-      allocator_.destroy(head_);
-      allocator_.deallocate(head_, 1);
+      allocator_.destroy(head_);//析构
+      allocator_.deallocate(head_, 1);//释放内存空间
       head_ = tmp;
       return result;
     }
@@ -90,8 +90,8 @@ class StackAlloc
     T top() { return (head_->data); }
 
   private:
-    allocator allocator_;
-    Node* head_;
+    allocator allocator_;       //空间配置器
+    Node* head_;                //头节点
 };
 
 #endif // STACK_ALLOC_H

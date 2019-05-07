@@ -54,7 +54,7 @@ int main()
     std::cout << "Copyright (c) 2013 Cosku Acay, http://www.coskuacay.com\n";
     std::cout << "Provided to compare the default allocator to MemoryPool.\n\n";
 
-    std::cout<<sizeof(unsigned int)<<std::endl;
+    //std::cout<<sizeof(unsigned int)<<std::endl;
 
     union Slot_ {
         int element;
@@ -62,9 +62,11 @@ int main()
     };
 
     /* Use the default allocator
+     * STL源码解析中指出：std::allocator只是对operator new和operator delete做了一层薄薄的包装
+     * */
     StackAlloc<int, std::allocator<int> > stackDefault;
     start = clock();
-    for (int j = 0; j < REPS; j++)
+    for (int j = 0; j < REPS; j++)//1百万个元素入栈出栈，测量性能
     {
         assert(stackDefault.empty());
         for (int i = 0; i < ELEMS / 4; i++) {

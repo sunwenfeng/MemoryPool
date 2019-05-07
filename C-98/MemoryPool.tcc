@@ -23,7 +23,7 @@
 #ifndef MEMORY_BLOCK_TCC
 #define MEMORY_BLOCK_TCC
 
-
+#include <iostream>
 
 template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::size_type                   //嵌套从属类型，用typename声明
@@ -58,6 +58,7 @@ template <typename T, size_t BlockSize>
 MemoryPool<T, BlockSize>::MemoryPool(const MemoryPool& memoryPool)
 throw()
 {
+    std::cout<<"cpoy1"<<std::endl;
   MemoryPool();
 }
 
@@ -68,6 +69,7 @@ template<class U>
 MemoryPool<T, BlockSize>::MemoryPool(const MemoryPool<U>& memoryPool)
 throw()
 {
+    std::cout<<"copy2"<<std::endl;
   MemoryPool();
 }
 
@@ -199,8 +201,8 @@ template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::pointer
 MemoryPool<T, BlockSize>::newElement(const_reference val)
 {
-  pointer result = allocate();//申请内存
-  construct(result, val);//构造对象
+  pointer result = allocate();      //申请内存
+  construct(result, val);           //构造对象
   return result;
 }
 
